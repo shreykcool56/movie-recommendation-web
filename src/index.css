@@ -1,0 +1,214 @@
+:root {
+  --bg-primary: #0D0D0D;
+  --bg-secondary: #1A1A2E;
+  --accent-primary: #E94560;
+  --accent-primary-hover: #ff5e79;
+  --accent-secondary: #0F3460;
+  --text-primary: #F5F5F5;
+  --text-secondary: #AAAAAA;
+  --card-surface: #16213E;
+  --card-surface-hover: #1f2e54;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --font-body: 'Inter', sans-serif;
+  --font-display: 'Cinzel', serif;
+  --shadow-premium: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 15px rgba(233, 69, 96, 0.4);
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--card-surface);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: none;
+  transition: var(--transition-smooth);
+}
+
+input, select, textarea {
+  font-family: var(--font-body);
+  outline: none;
+}
+
+/* Utility Classes */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+}
+
+.gradient-overlay {
+  background: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, rgba(13, 13, 13, 0.95) 90%);
+}
+
+.glass-panel {
+  background: rgba(26, 26, 46, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+}
+
+/* Base Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 80px; /* Space for bottom tab nav */
+}
+
+/* Bottom Tab Bar Navigation */
+.nav-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  border-top: 1px solid var(--border-color);
+  padding: 0 16px;
+}
+
+.nav-tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  flex: 1;
+  padding: 8px 0;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.nav-tab-item:hover {
+  color: var(--text-primary);
+}
+
+.nav-tab-item.active {
+  color: var(--accent-primary);
+  text-shadow: 0 0 8px rgba(233, 69, 96, 0.3);
+}
+
+.nav-tab-item.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 24px;
+  height: 3px;
+  background-color: var(--accent-primary);
+  border-radius: 0 0 3px 3px;
+  box-shadow: var(--shadow-glow);
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, #16213E 25%, #1F2E54 50%, #16213E 75%);
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite;
+}
+
+@keyframes loading-skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive Grid utility */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 16px 0;
+}
+
+@media (min-width: 768px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+  }
+  .app-container {
+    padding-bottom: 0;
+    padding-left: 90px; /* Left navigation bar for larger screens */
+  }
+  .nav-tab-bar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 90px;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 40px;
+    gap: 24px;
+    border-top: none;
+    border-right: 1px solid var(--border-color);
+  }
+  .nav-tab-item {
+    flex: none;
+    width: 100%;
+  }
+  .nav-tab-item.active::after {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 24px;
+    border-radius: 0 3px 3px 0;
+  }
+}
+
+/* Hide scrollbars but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
