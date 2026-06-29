@@ -22,14 +22,27 @@ const allowedOrigins = [
   'http://localhost:3005'
 ];
 
+if (process.env.ALLOWED_ORIGINS) {
+  const customOrigins = process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim());
+  allowedOrigins.push(...customOrigins);
+}
+
 app.use(cors({
   origin: function (origin, callback) {
+    console.log(`🔍 CORS origin check: ${origin}`);
     if (!origin) return callback(null, true);
-    const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
-    if (isLocalhost || allowedOrigins.includes(origin)) {
+    
+    const isLocalhost = origin.startsWith('http://localhost:') || 
+                        origin.startsWith('http://127.0.0.1:') || 
+                        origin === 'http://localhost' || 
+                        origin === 'http://127.0.0.1';
+                        
+    const isVercelDomain = origin.endsWith('.vercel.app');
+    
+    if (isLocalhost || isVercelDomain || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error(`Not allowed by CORS: ${origin}`));
     }
   },
   credentials: true,
